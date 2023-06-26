@@ -5,6 +5,7 @@ import { useState } from "react";
 import SkeletonList from "../components/SkeletonList";
 import Pagination from "react-js-pagination";
 import "./Paging.css";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function Characters() {
     const [numLimit, setNumLimit] = useState(6);
@@ -20,7 +21,13 @@ export default function Characters() {
     }
     console.log(page)
 
-    return <VStack w="full">
+    return (
+        <HelmetProvider>
+            <Helmet>
+                <title>마블페이지-Characters</title>
+            </Helmet>
+        
+    <VStack w="full">
         <Box w="full" h="64" overflow="hidden">
             <Image w="full" h="full" objectFit="cover"
                 src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2113&q=80" alt="Characters Img" />
@@ -108,4 +115,6 @@ export default function Characters() {
             </Box>
         </VStack>
     </VStack>
+    </HelmetProvider>
+);
 }

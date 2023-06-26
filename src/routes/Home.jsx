@@ -7,6 +7,10 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import SkeletonList from "../components/SkeletonList";
 import { comicsList, eventsList } from "../api";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import AOS from "aos";
+import 'aos/dist/aos.css';
+import { useEffect } from "react";
 
 const settings = {
     dots: false,
@@ -37,6 +41,10 @@ const featuresLists = [
 ]
 
 export default function Home() {
+    useEffect(() => {
+        AOS.init();
+    }, []
+    )
 
     console.log(process.env.REACT_APP_PUBLIC_KEY)
     const { data, isLoading } = useQuery('repoData', comicsList);
@@ -49,13 +57,17 @@ export default function Home() {
     console.log(charactersData);
 
     return <>
+    <HelmetProvider>
+        <Helmet>
+            <title>마블 홈페이지 입니다.</title>
+        </Helmet>
         {/* 캐러셀 */}
         <Box>
             <CarouselSlick />
         </Box>
 
         {/* 특장점 */}
-        <HStack w="full" justifyContent="center" py="16" bg="gray.100">
+        <HStack w="full" justifyContent="center" py="16" bg="gray.100" data>
             <Grid
                 gap="4"
                 w="7xl"
@@ -70,11 +82,13 @@ export default function Home() {
 
         {/* Comics 타이틀 */}
         {/* 기울어진 이미지 타이틀 */}
-        <TitleImageSkew
+                <div data-aos="fade-up">
+                <TitleImageSkew
             title="Comics"
             description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt est quos in cum delectus numquam corrupti eligendi unde itaque, natus voluptatem, esse corporis voluptate perferendis adipisci molestiae. Ipsa, non ducimus?"
             imgUrl="https://assets.vogue.in/photos/5ce412599cc0c0b8f5f9b4bf/4:3/w_1440,h_1080,c_limit/Everything-you-need-to-know-before-watching-Marvel-movies-this-year.jpg"
         />
+                </div>
 
         {/* Comics 컨텐츠 리스트 */}
         <VStack w="full" position="relative" h="400px">
@@ -181,6 +195,7 @@ export default function Home() {
                 </Slider>
             </Box>
         </VStack>
+        </HelmetProvider>
     </>
 
 }
